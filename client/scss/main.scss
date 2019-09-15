@@ -1,0 +1,49 @@
+/**
+ * SCSS file for Squash It! Now and Squash It! WP Admin
+*/
+// Squash It! Now
+.wbfy-squash-it-now
+{
+	// Log <div> display
+	.wbfy-si-log
+	{
+		display:none;
+		height: 15em;
+		padding:0.5em;
+		overflow:hidden;
+		overflow-y:auto;
+		border: 1px solid lightgrey;
+		background-color:white;
+		color:black;
+		margin-right:10px;
+		.wbfy-si-info
+		{
+			color:navy;
+		}
+		.wbfy-si-error
+		{
+			color:red;
+		}
+		.wbfy-si-indent
+		{
+			margin-left:1em;
+		}
+		.wbfy-si-success
+		{
+			color:green;
+		}
+	}
+	// For better readability on wider screens
+	.wbfy-si-notice
+	{
+		max-width: 50em;
+	}
+}
+// Squash It! WP Admin
+.wbfy-squash-it-admin
+{
+	input[type=text], select
+	{
+		width: 6em;
+	}
+}

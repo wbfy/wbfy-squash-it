@@ -1,0 +1,2 @@
+# No external calls to PHP files
+deny from all

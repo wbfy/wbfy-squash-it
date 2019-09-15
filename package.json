@@ -1,0 +1,26 @@
+{
+  "name": "wbfy-squash-it",
+  "version": "1.1.0",
+  "description": "Squash It! Image Resizer Wordpress Plugin",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "graceful-fs": "^4.2.2",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-jsonminify": "^1.1.0",
+    "gulp-order": "^1.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.2",
+    "gulp-util": "^3.0.8",
+    "minimatch": "^3.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Websites Built For You",
+  "license": "GPL-3.0-or-later"
+}
