@@ -333,7 +333,12 @@ class wbfy_si_Admin
             wp_die(__('You do not have sufficient permissions to access this page.', 'wbfy-squash-it'));
         }
 
-        wp_enqueue_style('wbfy-squash-it-css', plugins_url('/wbfy-squash-it/resources/css/wbfy-squash-it.min.css'), false, WBFY_SI_VERSION);
+        wp_enqueue_style(
+            'wbfy-squash-it-css',
+            plugins_url('/wbfy-squash-it/resources/css/wbfy-squash-it.min.css'),
+            false,
+            WBFY_SI_VERSION
+        );
 
         echo wbfy_si_Libs_WordPress_Functions::render(
             'server/skin/admin.php',

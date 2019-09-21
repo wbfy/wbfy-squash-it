@@ -233,8 +233,18 @@ class wbfy_si_SquashItNow
         }
 
         wbfy_si_Libs_WordPress_Functions::enqueueJQuery();
-        wp_enqueue_script('wbfy-squash-it-js', plugins_url('/wbfy-squash-it/resources/js/wbfy-squash-it.min.js'), false, WBFY_SI_VERSION);
-        wp_enqueue_style('wbfy-squash-it-css', plugins_url('/wbfy-squash-it/resources/css/wbfy-squash-it.min.css'), false, WBFY_SI_VERSION);
+        wp_enqueue_script(
+            'wbfy-squash-it-js',
+            plugins_url('/wbfy-squash-it/resources/js/wbfy-squash-it.min.js'),
+            false,
+            WBFY_SI_VERSION
+        );
+        wp_enqueue_style(
+            'wbfy-squash-it-css',
+            plugins_url('/wbfy-squash-it/resources/css/wbfy-squash-it.min.css'),
+            false,
+            WBFY_SI_VERSION
+        );
 
         // Output rendered template
         echo wbfy_si_Libs_WordPress_Functions::render(

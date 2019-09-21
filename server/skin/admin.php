@@ -14,7 +14,7 @@ $action_link = "<a href='$action_url'>" . esc_html__('Squash It! Now') . '</a>';
 ?>
 <div class="wrap">
 	<h1>
-        <?php esc_html_e('Configure Squash It! Image Resizer', 'wbfy-squash-it');?>
+        <?php esc_html_e('Configure Squash It!', 'wbfy-squash-it');?>
     </h1>
 	<form method="post" action="options.php" name="wbfy-squash-it-admin" class="wbfy-squash-it-admin">
 <?php

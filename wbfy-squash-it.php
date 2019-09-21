@@ -9,7 +9,7 @@
  */
 
 /**
- * Plugin Name: Squash It! Image Resizer
+ * Plugin Name: Squash It!
  * Plugin URI: https://websitesbuiltforyou.com/wordpress/squash-it-image-resizer
  * Description: Resize and optimise images already uploaded to WordPress
  * Author: Websites Built For You

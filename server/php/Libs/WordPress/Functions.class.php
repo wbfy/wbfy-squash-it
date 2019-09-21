@@ -19,7 +19,10 @@ class wbfy_si_Libs_WordPress_Functions
         global $wp_scripts;
         $jq = $wp_scripts->registered['jquery-ui-core']->ver;
         $jq = (is_null($jq)) ? '1.12.1' : $jq;
-        wp_enqueue_style("jquery-style", '//ajax.googleapis.com/ajax/libs/jqueryui/' . $jq . '/themes/' . $style . '/jquery-ui.css');
+        wp_enqueue_style(
+            'jquery-style',
+            '//ajax.googleapis.com/ajax/libs/jqueryui/' . $jq . '/themes/' . $style . '/jquery-ui.css'
+        );
     }
 
     public static function enqueueDatePicker()
