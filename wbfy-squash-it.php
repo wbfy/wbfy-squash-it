@@ -39,7 +39,7 @@ if (!class_exists('wbfy_si_Main')) {
     define('WBFY_SI_PLUGIN_DIR', plugin_dir_path(__FILE__));
     define('WBFY_SI_IMAGE_EXTENSIONS', 'jpeg|jpg|png|bmp');
 
-    include 'server/php/Autoloader.class.php';
+    include 'server/src/Autoloader.class.php';
     wbfy_si_Autoloader::register();
 
     $wbfy_si = new wbfy_si_Main;

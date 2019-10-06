@@ -21,7 +21,7 @@ class wbfy_si_Autoloader
             return;
         }
 
-        $file = WBFY_SI_PLUGIN_DIR . 'server/php/' . str_replace(array('wbfy_si_', '_'), array('', '/'), $class) . ".class.php";
+        $file = WBFY_SI_PLUGIN_DIR . 'server/src/' . str_replace(array('wbfy_si_', '_'), array('', '/'), $class) . ".class.php";
         if (file_exists($file)) {
             require_once $file;
             return true;
