@@ -12,9 +12,8 @@ This is useful when for example you have people regularly uploading pictures fro
 
 ## Usage And Installation
 Full usage instructions and a pre-compiled .zip WordPress installation file are available at:
-https://websitesbuiltforyou.com/wordpress/feature-grids-plugin-for-wordpress/
 
-Install as you would any other WordPress plugin.
+https://websitesbuiltforyou.com/wordpress/feature-grids-plugin-for-wordpress/
 
 ## Licence
 This plugin is licenced under the GNU GPL 2.0 or higher licence.
