@@ -36,6 +36,8 @@ Long description
 * Initial release
 
 == License ==
+Copyright (c) 2019 Steve Perkins, Websites Built For You
+
 This file is part of Squash It! Image Resizer.
 
 Squash It! Image Resizer is free software: you can redistribute it and/or modify it
@@ -48,3 +50,5 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 Squash It! Image Resizer. If not, see https://www.gnu.org/licenses.
+
+
