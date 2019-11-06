@@ -1,5 +1,5 @@
 /**
- * Simple Squash It! Gulp project builder
+ * build project
  */
 var gulp = require('gulp'),
 	concat = require('gulp-concat'),
@@ -14,10 +14,16 @@ gulp.task
 	(
 		'compile.plugin',
 		function (doneCallBack) {
-			gulp.src(['client/js/*.js'])
-				.pipe(concat('wbfy-squash-it.min.js'))
-				.pipe(uglify())
-				.pipe(gulp.dest('resources/js'));
+			if (flags.production) {
+				gulp.src(['client/js/*.js'])
+					.pipe(concat('wbfy-squash-it.min.js'))
+					.pipe(uglify())
+					.pipe(gulp.dest('resources/js'));
+			} else {
+				gulp.src(['client/js/*.js'])
+					.pipe(concat('wbfy-squash-it.min.js'))
+					.pipe(gulp.dest('resources/js'));
+			}
 
 			gulp.src(['client/scss/main.scss'])
 				.pipe(concat('wbfy-squash-it.min.css'))

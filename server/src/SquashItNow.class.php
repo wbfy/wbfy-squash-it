@@ -30,6 +30,8 @@ class wbfy_si_SquashItNow
         // Initialise Images class and make sure there is a
         // image processing library available
         $image_lib = new wbfy_si_Libs_Images;
+        $image_lib->setOptions(wbfy_si_Options::getInstance()->settings['image']);
+
         if (!$image_lib->loaded()) {
             wp_send_json_success(['status' => $image_lib->error()]);
             return;
@@ -43,8 +45,7 @@ class wbfy_si_SquashItNow
         // $batch_limit = 5;
 
         // Used for timing how long getFiles() takes to complete
-        $start   = microtime(true);
-        $options = wbfy_si_Options::getInstance();
+        $start = microtime(true);
 
         $scan_dir = wp_upload_dir();
         $scanner  = new RecursiveDirectoryIterator(trailingslashit($scan_dir['basedir']));
@@ -69,28 +70,20 @@ class wbfy_si_SquashItNow
 
         // Recusive scan of uploads folder
         foreach (new RecursiveIteratorIterator($scanner) as $file) {
-            // Check filename extension matches
-            if (preg_match('/.*\.(jpeg|jpg|png|bmp)$/i', $file)) {
-                $image_lib->setSource($file);
-                $size = $image_lib->getExifSize();
-                // Check if file is candidate for resizing
-                if ($this->isCandidate($size)) {
-                    // Don't squash if filename contains 'nosquash'
-                    if (strpos(strtolower($file), 'nosquash') === false) {
-                        $dir      = dirname($file);
-                        $filename = basename($file);
+            $image_lib->setSource($file);
+            if ($image_lib->isCandidate()) {
+                $dir      = dirname($file);
+                $filename = basename($file);
 
-                        $files['count']++;
-                        $files['list'][$dir][] = [
-                            'name' => $filename,
-                            'id'   => (isset($meta_ids[$dir][$filename])) ? $meta_ids[$dir][$filename] : 0,
-                            'size' => $size,
-                        ];
-                        // Terminate if batch limit is reached
-                        if ($batch_limit > 0 && $files['count'] >= $batch_limit) {
-                            break;
-                        }
-                    }
+                $files['count']++;
+                $files['list'][$dir][] = [
+                    'name' => $filename,
+                    'id'   => (isset($meta_ids[$dir][$filename])) ? $meta_ids[$dir][$filename] : 0,
+                    'size' => $image_lib->getSize(),
+                ];
+                // Terminate if batch limit is reached
+                if ($batch_limit > 0 && $files['count'] >= $batch_limit) {
+                    break;
                 }
             }
         }
@@ -127,6 +120,7 @@ class wbfy_si_SquashItNow
             wp_send_json_success(json_encode(['status' => $image_lib->error()]));
             return;
         }
+        $image_lib->setOptions(wbfy_si_Options::getInstance()->settings['resize']);
 
         // Retrieve and sanitize input data
         $path     = sanitize_text_field($_GET['path']);
@@ -150,18 +144,11 @@ class wbfy_si_SquashItNow
         // Combine path and filename to make fully qualified image source
         $source = trailingslashit($path) . $filename;
 
-        // Get resize options from settings
-        // Set to zero if not enabled
-        $settings   = wbfy_si_Options::getInstance()->settings;
-        $max_width  = ($settings['resize']['max_width']['enabled']) ? $settings['resize']['max_width']['value'] : 0;
-        $max_height = ($settings['resize']['max_height']['enabled']) ? $settings['resize']['max_height']['value'] : 0;
-        $quality    = ($settings['resize']['quality']['enabled']) ? $settings['resize']['quality']['value'] : -1;
-
         // Set image source
         $image_lib->setSource($source);
 
         // Resize image
-        $result = $image_lib->resize($max_width, $max_height, $quality, $dry_run);
+        $result = $image_lib->resize($dry_run);
 
         if (is_array($result)) {
             // Update WordPress image meta data sizes if it exists
@@ -201,25 +188,6 @@ class wbfy_si_SquashItNow
             'wbfy-squash-it-now',
             array($this, 'render')
         );
-    }
-
-    /**
-     * Check whether file size matches set options
-     *
-     * @param array $size Array as returned by getSize or getExifSize
-     * @param boolean True if file is candidate
-     */
-    private function isCandidate($size)
-    {
-        $options = wbfy_si_Options::getInstance();
-        $is      = false;
-        if ($options->settings['resize']['max_width']['enabled'] && $size['width'] > $options->settings['resize']['max_width']['value']) {
-            $is = true;
-        }
-        if ($options->settings['resize']['max_height']['enabled'] && $size['height'] > $options->settings['resize']['max_height']['value']) {
-            $is = true;
-        }
-        return $is;
     }
 
     /**

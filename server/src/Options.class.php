@@ -64,18 +64,23 @@ class wbfy_si_Options
     public function getDefaults()
     {
         $this->settings = array(
-            'resize'      => array(
-                'max_width'  => array(
-                    'enabled' => true,
-                    'value'   => 1920,
+            'image'       => array(
+                'resize' => array(
+                    'max_width'  => array(
+                        'enabled' => true,
+                        'value'   => 1920,
+                    ),
+                    'max_height' => array(
+                        'enabled' => false,
+                        'value'   => 1146,
+                    ),
+                    'quality'    => array(
+                        'enabled' => false,
+                        'value'   => 82,
+                    ),
                 ),
-                'max_height' => array(
-                    'enabled' => false,
-                    'value'   => 1146,
-                ),
-                'quality'    => array(
-                    'enabled' => false,
-                    'value'   => 82,
+                'format' => array(
+                    'progressive' => 'leave',
                 ),
             ),
             'auto'        => array(

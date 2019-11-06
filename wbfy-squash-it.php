@@ -14,7 +14,7 @@
  * Description: Resize and optimise images already uploaded to WordPress
  * Author: Websites Built For You
  * Author URI: https://websitesbuiltforyou.com
- * Version: 1.1.0
+ * Version: 1.2.0
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses
  *
@@ -36,10 +36,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+include 'server/src/Libs/Polyfills.php';
+
 if (!class_exists('wbfy_si_Main')) {
-    define('WBFY_SI_VERSION', '1.1.0');
+    define('WBFY_SI_VERSION', '1.2.0');
     define('WBFY_SI_PLUGIN_DIR', plugin_dir_path(__FILE__));
-    define('WBFY_SI_IMAGE_EXTENSIONS', 'jpeg|jpg|png|bmp');
 
     include 'server/src/Autoloader.class.php';
     wbfy_si_Autoloader::register();

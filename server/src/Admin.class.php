@@ -54,48 +54,64 @@ class wbfy_si_Admin
     {
         // Image resize settings section
         add_settings_section(
-            'wbfy_si_resize', // ID
-            __('Resize Parameters', 'wbfy-squash-it'), // Section name
+            'wbfy_si_image_resize', // ID
+            __('Image Resizing', 'wbfy-squash-it'), // Section name
             array($this, 'sectionImageResize'), // Title HTML callback
             'wbfy_si_options' // register_setting::option group NOT page slug!
         );
 
         // Resize settings fields
         add_settings_field(
-            'wbfy_si_resize_max_width_value', // ID
-            __('Maximum Width (px)', 'wbfy-squash-it'), // Label
-            array($this, 'fieldResizeMaxWidth'), // Field HTML callback
+            'wbfy_si_image_resize_max_width_value', // ID
+            __('Maximum width (px)', 'wbfy-squash-it'), // Label
+            array($this, 'fieldImageResizeMaxWidth'), // Field HTML callback
             'wbfy_si_options', // register_setting::option group NOT page slug!
-            'wbfy_si_resize' // Section ID
+            'wbfy_si_image_resize' // Section ID
         );
 
         add_settings_field(
-            'wbfy_si_resize_max_height_value',
-            __('Maximum Height (px)', 'wbfy-squash-it'),
-            array($this, 'fieldResizeMaxHeight'),
+            'wbfy_si_image_resize_max_height_value',
+            __('Maximum height (px)', 'wbfy-squash-it'),
+            array($this, 'fieldImageResizeMaxHeight'),
             'wbfy_si_options',
-            'wbfy_si_resize'
+            'wbfy_si_image_resize'
         );
 
         add_settings_field(
-            'wbfy_si_resize_quality_value',
+            'wbfy_si_image_resize_quality_value',
             __('Quality (%)', 'wbfy-squash-it'),
-            array($this, 'fieldResizeQuality'),
+            array($this, 'fieldImageResizeQuality'),
             'wbfy_si_options',
-            'wbfy_si_resize'
+            'wbfy_si_image_resize'
+        );
+
+        // Image format settings section
+        add_settings_section(
+            'wbfy_si_image_format', // ID
+            __('Image Reformatting', 'wbfy-squash-it'), // Section name
+            array($this, 'sectionImageFormat'), // Title HTML callback
+            'wbfy_si_options' // register_setting::option group NOT page slug!
+        );
+
+        add_settings_field(
+            'wbfy_si_image_format_progressive',
+            __('Make progressive (interlaced)', 'wbfy-squash-it'),
+            array($this, 'fieldImageFormatProgressive'),
+            'wbfy_si_options',
+            'wbfy_si_image_format'
         );
 
         // Config automatic resize
         add_settings_section(
             'wbfy_si_auto',
-            __('Automatic Resizing', 'wbfy-squash-it'),
+            __('Auto Squash It!', 'wbfy-squash-it'),
             array($this, 'sectionAuto'),
             'wbfy_si_options'
         );
 
         add_settings_field(
             'wbfy_si_auto_on_upload',
-            __('On upload', 'wbfy-squash-it'),
+            __('When images are uploaded', 'wbfy-squash-it'),
             array($this, 'fieldAutoOnUpload'),
             'wbfy_si_options',
             'wbfy_si_auto'
@@ -137,7 +153,7 @@ class wbfy_si_Admin
     /**
      * Render max_width field
      */
-    public function fieldResizeMaxWidth()
+    public function fieldImageResizeMaxWidth()
     {
         $options = wbfy_si_Options::getInstance();
 
@@ -145,9 +161,9 @@ class wbfy_si_Admin
 
         echo wbfy_si_Libs_Html_Inputs::inputCheck(
             array(
-                'id'    => 'wbfy_si_resize_max_width_enabled',
-                'name'  => 'wbfy_si[resize][max_width][enabled]',
-                'value' => $options->settings['resize']['max_width']['enabled'],
+                'id'    => 'wbfy_si_image_resize_max_width_enabled',
+                'name'  => 'wbfy_si[image][resize][max_width][enabled]',
+                'value' => $options->settings['image']['resize']['max_width']['enabled'],
                 'label' => __('Enabled', 'wbfy-squash-it'),
             )
         );
@@ -156,20 +172,20 @@ class wbfy_si_Admin
 
         echo wbfy_si_Libs_Html_Inputs::inputText(
             array(
-                'id'        => 'wbfy_si_resize_max_width_value',
-                'name'      => 'wbfy_si[resize][max_width][value]',
-                'value'     => $options->settings['resize']['max_width']['value'],
+                'id'        => 'wbfy_si_image_resize_max_width_value',
+                'name'      => 'wbfy_si[image][resize][max_width][value]',
+                'value'     => $options->settings['image']['resize']['max_width']['value'],
                 'maxlength' => 5,
             )
         );
 
-        echo '<div><div>' . __('Minimum value: 300', 'wbfy-squash-it');
+        echo '</div><div>' . __('Minimum value: 300', 'wbfy-squash-it') . '<div>';
     }
 
     /**
      * Render resize max_height field
      */
-    public function fieldResizeMaxHeight()
+    public function fieldImageResizeMaxHeight()
     {
         $options = wbfy_si_Options::getInstance();
 
@@ -177,9 +193,9 @@ class wbfy_si_Admin
 
         echo wbfy_si_Libs_Html_Inputs::inputCheck(
             array(
-                'id'    => 'wbfy_si_resize_max_height_enabled',
-                'name'  => 'wbfy_si[resize][max_height][enabled]',
-                'value' => $options->settings['resize']['max_height']['enabled'],
+                'id'    => 'wbfy_si_image_resize_max_height_enabled',
+                'name'  => 'wbfy_si[image][resize][max_height][enabled]',
+                'value' => $options->settings['image']['resize']['max_height']['enabled'],
                 'label' => __('Enabled', 'wbfy-squash-it'),
             )
         );
@@ -188,20 +204,20 @@ class wbfy_si_Admin
 
         echo wbfy_si_Libs_Html_Inputs::inputText(
             array(
-                'id'        => 'wbfy_si_resize_max_height_value',
-                'name'      => 'wbfy_si[resize][max_height][value]',
-                'value'     => $options->settings['resize']['max_height']['value'],
+                'id'        => 'wbfy_si_image_resize_max_height_value',
+                'name'      => 'wbfy_si[image][resize][max_height][value]',
+                'value'     => $options->settings['image']['resize']['max_height']['value'],
                 'maxlength' => 5,
             )
         );
 
-        echo '<div><div>Minimum value: 300';
+        echo '</div><div>' . __('Minimum value: 300', 'wbfy-squash-it') . '</div>';
     }
 
     /**
      * Render quality field
      */
-    public function fieldResizeQuality()
+    public function fieldImageResizeQuality()
     {
         $options = wbfy_si_Options::getInstance();
 
@@ -209,9 +225,9 @@ class wbfy_si_Admin
 
         echo wbfy_si_Libs_Html_Inputs::inputCheck(
             array(
-                'id'    => 'wbfy_si_resize_quality_enabled',
-                'name'  => 'wbfy_si[resize][quality][enabled]',
-                'value' => $options->settings['resize']['quality']['enabled'],
+                'id'    => 'wbfy_si_image_resize_quality_enabled',
+                'name'  => 'wbfy_si[image][resize][quality][enabled]',
+                'value' => $options->settings['image']['resize']['quality']['enabled'],
                 'label' => __('Enabled', 'wbfy-squash-it'),
             )
         );
@@ -221,13 +237,42 @@ class wbfy_si_Admin
         echo wbfy_si_Libs_Html_Inputs::selectRange(
             30, 100,
             array(
-                'id'    => 'wbfy_si_resize_quality_value',
-                'name'  => 'wbfy_si[resize][quality][value]',
-                'value' => $options->settings['resize']['quality']['value'],
+                'id'    => 'wbfy_si_image_resize_quality_value',
+                'name'  => 'wbfy_si[image][resize][quality][value]',
+                'value' => $options->settings['image']['resize']['quality']['value'],
             )
         );
 
-        echo '<div>';
+        echo '</div>';
+    }
+
+    /**
+     * Render Resize options section header
+     */
+    public function sectionImageFormat()
+    {
+        echo '<p>' . __('The parameters below will apply to both batch and automatic image reformatting:', 'wbfy-squash-it') . '</p>';
+    }
+
+    /**
+     * Render progressive resize option field
+     */
+    public function fieldImageFormatProgressive()
+    {
+        $options = wbfy_si_Options::getInstance();
+        echo wbfy_si_Libs_Html_Inputs::selectList(
+            array(
+                'leave' => 'Leave Unchanged',
+                'yes'   => 'Yes',
+                'no'    => 'No',
+            ),
+            array(
+                'id'    => 'wbfy_si_image_format_progressive',
+                'name'  => 'wbfy_si[image][format][progressive]',
+                'value' => $options->settings['image']['format']['progressive'],
+                'class' => 'wbfy-wide',
+            )
+        );
     }
 
     /**
@@ -235,7 +280,7 @@ class wbfy_si_Admin
      */
     public function sectionAuto()
     {
-        echo '<p>' . __('Automatically resize images:', 'wbfy-squash-it') . '</p>';
+        echo '<p>' . __('Automatically apply Squash It! resize and format settings:', 'wbfy-squash-it') . '</p>';
     }
 
     /**
@@ -296,12 +341,16 @@ class wbfy_si_Admin
      */
     public function validate($input)
     {
-        $input['config_data']['on_delete']        = (isset($input['config_data']['on_delete'])) ? true : false;
-        $input['config_data']['on_deactivate']    = (isset($input['config_data']['on_deactivate'])) ? true : false;
-        $input['resize']['max_width']['enabled']  = (isset($input['resize']['max_width']['enabled'])) ? true : false;
-        $input['resize']['max_height']['enabled'] = (isset($input['resize']['max_height']['enabled'])) ? true : false;
-        $input['resize']['quality']['enabled']    = (isset($input['resize']['quality']['enabled'])) ? true : false;
-        $input['auto']['on_upload']               = (isset($input['auto']['on_upload'])) ? true : false;
+        $input['config_data']['on_delete']     = (isset($input['config_data']['on_delete'])) ? true : false;
+        $input['config_data']['on_deactivate'] = (isset($input['config_data']['on_deactivate'])) ? true : false;
+
+        $input['image']['resize']['max_width']['enabled']  = (isset($input['image']['resize']['max_width']['enabled'])) ? true : false;
+        $input['image']['resize']['max_height']['enabled'] = (isset($input['image']['resize']['max_height']['enabled'])) ? true : false;
+        $input['image']['resize']['quality']['enabled']    = (isset($input['image']['resize']['quality']['enabled'])) ? true : false;
+
+        $input['image']['format']['progressive'] = sanitize_text_field($input['image']['format']['progressive']);
+
+        $input['auto']['on_upload'] = (isset($input['auto']['on_upload'])) ? true : false;
 
         $input['resize']['quality']['value'] = intval(sanitize_text_field($input['resize']['quality']['value']));
         if ($input['resize']['quality']['value'] < 10) {

@@ -13,19 +13,10 @@ class wbfy_si_Libs_Images_GD
     private $exif         = false;
 
     /**
-     * Check if image file information has been successfully loaded
-     *
-     * @return boolean True if loaded
-     */
-    public function isLoaded()
-    {
-        return $this->image_loaded;
-    }
-
-    /**
      * Set the image source file and load the fileinformation about it
      *
      * @param string $source The image filename with path
+     *
      * @return mixed True if successfully loaded, error string if not
      */
     public function setSource($source)
@@ -62,8 +53,10 @@ class wbfy_si_Libs_Images_GD
     /**
      * @inheritDoc wbfy_si_Libs_Images
      */
-    public function resize($max_width, $max_height, $quality, $dry_run, $destination)
+    public function resize($max_width, $max_height, $quality, $progressive, $dry_run, $destination)
     {
+        $mime_type = $this->getMimeType();
+
         // Overwrite source if no destination supplied
         if (is_null($destination)) {
             $destination = $this->source;
@@ -95,15 +88,24 @@ class wbfy_si_Libs_Images_GD
             $new_height = $max_height;
         }
 
-        // Should possibly also add transparent pad to max_width / max height?
-
         $new_image = imagecreatetruecolor($new_width, $new_height);
+
         // Preserve transparency on PNG images
         if ($this->getMimeType() == 'image/png') {
             imagealphablending($new_image, false);
             imagesavealpha($new_image, true);
         }
         imagecopyresampled($new_image, $old_image, 0, 0, 0, 0, $new_width, $new_height, $fixed_width, $fixed_height);
+
+        // Image progressive (interlacing) if enabled
+        switch ($progressive) {
+            case 'yes':
+                imageinterlace($new_image, 1);
+                break;
+            case 'no':
+                imageinterlace($new_image, 0);
+                break;
+        }
 
         return $this->saveImage($destination, $new_image, $quality, $dry_run);
     }
@@ -131,6 +133,32 @@ class wbfy_si_Libs_Images_GD
     }
 
     /**
+     * Check if image file information has been successfully loaded
+     *
+     * @return boolean True if loaded
+     */
+    public function isLoaded()
+    {
+        return $this->image_loaded;
+    }
+
+    /**
+     * @inheritDoc wbfy_si_Libs_Images
+     */
+    public function isSupportedMimeType()
+    {
+        return ($this->getMimeType() != 'image/unknown');
+    }
+
+    /**
+     * @inheritDoc wbfy_si_Libs_Images
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
      * @inheritDoc wbfy_si_Libs_Images
      */
     public function getExifSize()
@@ -150,6 +178,11 @@ class wbfy_si_Libs_Images_GD
             'width'  => $width,
             'height' => $height,
         );
+    }
+
+    public function getExif()
+    {
+        return $this->exif;
     }
 
     /**

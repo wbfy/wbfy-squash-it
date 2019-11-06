@@ -46,20 +46,18 @@
 			}
 
 			// Get filelist
-			$.get
-				(
-					{
-						url: ajaxurl,
-						data: {
-							action: 'wbfy_si_files',
-							verify: $('#wbfy-si-verify').val()
-						},
-						cache: false,
-						timeout: 0
-					}
-				)
-				.done
-				(
+			$.get(
+				{
+					url: ajaxurl,
+					data: {
+						action: 'wbfy_si_files',
+						verify: $('#wbfy-si-verify').val()
+					},
+					cache: false,
+					timeout: 0
+				}
+			)
+				.done(
 					function (response) {
 						var data = response.data;
 
@@ -88,8 +86,7 @@
 						}
 					}
 				)
-				.fail
-				(
+				.fail(
 					function (err, textStatus, errorThrown) {
 						// Log error and finish
 						squashItLog($log, 'There was a problem fetching the filelist. The server said "' + textStatus + ', ' + errorThrown + '". Please try again later.', 'error');
@@ -145,7 +142,7 @@
 							'success indent'
 						);
 					}
-					squashItLog(me.$log, '** No files were modified as dry run mode was enabled **', 'success info');
+					squashItLog(me.$log, '** No files were modified as dry run mode was enabled **', 'info');
 				} else {
 					squashItLog(me.$log, 'Squash It! processed a total of ' + me.total + ' images in ' + squashItDuration(me.started) + ' seconds', 'success');
 					if (me.success != me.total) {
@@ -185,25 +182,23 @@
 			}
 
 			// Resize image
-			$.get
-				(
+			$.get(
+				{
+					url: ajaxurl,
+					data:
 					{
-						url: ajaxurl,
-						data:
-						{
-							action: 'wbfy_si_file',
-							verify: $('#wbfy-si-verify').val(),
-							path: dirs[me.dir],
-							filename: fileinfo.name,
-							id: fileinfo.id,
-							dry_run: me.dryRun
-						},
-						cache: false,
-						timeout: 0
-					}
-				)
-				.done
-				(
+						action: 'wbfy_si_file',
+						verify: $('#wbfy-si-verify').val(),
+						path: dirs[me.dir],
+						filename: fileinfo.name,
+						id: fileinfo.id,
+						dry_run: me.dryRun
+					},
+					cache: false,
+					timeout: 0
+				}
+			)
+				.done(
 					function (response) {
 						var data = response.data;
 
@@ -230,8 +225,7 @@
 						squashItProcessFile(dirs, files);
 					}
 				)
-				.fail
-				(
+				.fail(
 					function (err, txtStatus) {
 						if (me.retryCount > 0) {
 							// Retry processing file
